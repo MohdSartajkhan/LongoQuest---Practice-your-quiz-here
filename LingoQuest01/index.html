@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <title >LingoQuest — All-in-One</title>
+
+  <!-- =========================
+       CSS (Neon + Light Theme)
+       ========================= -->
+</head>
+<body>
+  <!-- ============================
+       APP Shell (Single File SPA)
+       ============================ -->
+  <div class="app" id="appRoot" data-theme="dark">
+    <header class="topbar container">
+      <div class="brand neon-title">LingoQuest</div>
+      <div class="controls">
+        <div id="userBadge" class="muted small">Not logged</div>
+        <button id="toggleTheme" class="btn icon round">🌓</button>
+        <button id="navHistoryTop" class="btn ghost small">History</button>
+      </div>
+    </header>
+
+    <!-- Main container -->
+    <main class="container full-center">
+      <!-- Login Page -->
+      <section id="page-login" class="page active">
+        <div class="card big center question-card">
+          <h1 class="big neon-title">Welcome to <span>LingoQuest</span></h1>
+          <p class="muted">Enter your name and age to start. Your attempts will be saved locally on this browser.</p>
+
+          <div class="gap"></div>
+          <form id="loginForm" class="form" onsubmit="return false;">
+            <label for="nameInput">Name</label>
+            <input id="nameInput" type="text" placeholder="e.g. Mohd Sartaj" required>
+
+            <label for="ageInput">Age</label>
+            <input id="ageInput" type="number" min="5" max="120" placeholder="Your age" required>
+
+            <div class="row space" style="margin-top:12px">
+              <div style="flex:1">
+                <button id="btnLogin" class="btn primary large" type="button">Let's Play</button>
+              </div>
+              <div style="width:160px">
+                <button id="btnOpenHistoryFromLogin" class="btn ghost large" type="button">Open History</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="gap"></div>
+          <p class="muted small">Tip: Toggle the theme with the button in the top-right.</p>
+        </div>
+      </section>
+
+      <!-- Setup Page -->
+      <section id="page-setup" class="page">
+        <div class="card question-card">
+          <div class="row space">
+            <h2 class="big">Quiz Setup</h2>
+            <div class="row">
+              <button id="btnBackFromSetup" class="btn ghost small">← Back</button>
+              <button id="btnOpenHistoryFromSetup" class="btn ghost small">History</button>
+            </div>
+          </div>
+
+          <p class="muted">Pick a category, choose number of questions and a time limit for the entire quiz.</p>
+
+          <div class="gap"></div>
+          <div class="grid-3">
+            <div>
+              <label>Category</label>
+              <select id="setupCategory"></select>
+            </div>
+            <div>
+              <label>Number of questions</label>
+              <select id="setupCount">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+            <div>
+              <label>Time limit (seconds)</label>
+              <select id="setupTime">
+                <option value="30">30</option>
+                <option value="60" selected>60</option>
+                <option value="120">120</option>
+                <option value="300">300</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="gap"></div>
+          <div class="row" style="justify-content:center">
+            <button id="btnStartQuiz" class="btn primary large">Start Quiz</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz Page -->
+      <section id="page-quiz" class="page">
+        <div class="card question-card">
+          <div class="row space">
+            <h2 id="quizCategory" class="big">Category</h2>
+            <div class="row">
+              <div id="progress" class="progress">Q 0 / 0</div>
+              <div style="width:12px"></div>
+              <div id="timer" class="timer">00:00</div>
+              <button id="btnQuit" class="btn ghost small">Quit</button>
+            </div>
+          </div>
+
+          <div class="gap"></div>
+          <div id="questionBlock">
+            <h3 id="questionText" class="big question">Question will appear here</h3>
+            <div id="optionsGrid" class="options"></div>
+          </div>
+
+          <div class="gap"></div>
+          <div class="row space">
+            <div>
+              <button id="btnPrev" class="btn ghost">Previous</button>
+              <button id="btnNext" class="btn ghost">Next</button>
+            </div>
+            <div>
+              <button id="btnSubmitQuiz" class="btn primary large">Submit Quiz</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Result Page -->
+      <section id="page-result" class="page">
+        <div class="card result-card">
+          <div class="row space">
+            <h2 class="big">Result</h2>
+            <div class="row">
+              <button id="btnRestart" class="btn ghost small">Restart</button>
+              <button id="btnHomeFromResult" class="btn ghost small">Home</button>
+            </div>
+          </div>
+
+          <div style="text-align:center;margin-top:18px">
+            <div class="score-big" id="scoreBig">0</div>
+            <p id="scoreSummary" class="muted"></p>
+            <div class="gap"></div>
+            <div id="resultDetails" class="details-list"></div>
+            <div class="gap"></div>
+            <div class="row" style="justify-content:center">
+              <button id="btnDownload" class="btn primary large">Download Results</button>
+              <div style="width:12px"></div>
+              <button id="btnPlayAgain" class="btn ghost large">Play Again</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- History Page -->
+      <section id="page-history" class="page">
+        <div class="card history-card">
+          <div class="row space">
+            <h2 class="big">History</h2>
+            <div class="row">
+              <button id="btnBackFromHistory" class="btn ghost small">Back</button>
+              <button id="btnExportHistory" class="btn primary small">Export</button>
+              <button id="btnClearHistory" class="btn ghost small">Clear</button>
+            </div>
+          </div>
+
+          <p class="muted">Your recent attempts are listed below (most recent first).</p>
+          <div id="historyList" class="history-grid"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="container" style="padding:18px;color:var(--muted);text-align:center">
+      LingoQuest — Single-file app • Local-only storage • Neon theme
+    </footer>
+  </div>
+
+  <!-- =========================
+       JavaScript (All logic)
+       ========================= -->
+<script src="script.js" defer></script></body>
+</html>
